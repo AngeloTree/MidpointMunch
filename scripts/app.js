@@ -1,3 +1,7 @@
+const address1 = document.querySelector("#address1");
+const address2 = document.querySelector("#address2");
+const findButton = document.querySelector("#findButton");
+
 fetch("../config.json")
   .then((response) => {
     if (!response.ok) {
