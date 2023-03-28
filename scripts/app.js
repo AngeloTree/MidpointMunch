@@ -47,7 +47,6 @@ fetch("../config.json")
 
       const address1Value = address1.value;
       const address2Value = address2.value;
-      console.log("test");
 
       Promise.all([
         geocodeAddress(apiKey, address1Value),
@@ -56,6 +55,11 @@ fetch("../config.json")
         .then(([location1, location2]) => {
           console.log("Address 1:", location1);
           console.log("Address 2:", location2);
+
+          const midpoint = calculateMidpoint(location1, location2);
+          console.log("Midpoint:", midpoint);
+
+          window.midpoint = midpoint;
         })
         .catch((error) => {
           console.error("Geocoding error:", error);
