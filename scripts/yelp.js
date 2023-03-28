@@ -1,10 +1,24 @@
 // Make sure this script is loaded after the main script in your HTML file
 // so that the midpoint value is available
 
-if (window.midpoint) {
-  console.log("Midpoint from main script:", window.midpoint);
+function fetchRestaurants(midpoint, yelpApiKey) {
+  const { lat, lng } = midpoint;
+  const apiUrl = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lng}&categories=restaurants`;
 
-  // Use Yelp API with the midpoint value here
-} else {
-  console.error("Midpoint value not found.");
+  return fetch(apiUrl, {
+    headers: {
+      Authorization: `Bearer ${yelpApiKey}`,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Yelp API response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      return data.businesses;
+    });
 }
+
+export { fetchRestaurants };

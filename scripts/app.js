@@ -1,3 +1,5 @@
+import { fetchRestaurants } from "./yelp.js";
+
 const address1 = document.querySelector("#address1");
 const address2 = document.querySelector("#address2");
 const findButton = document.querySelector("#findButton");
@@ -57,9 +59,25 @@ fetch("../config.json")
           console.log("Address 2:", location2);
 
           const midpoint = calculateMidpoint(location1, location2);
-          console.log("Midpoint:", midpoint);
 
-          window.midpoint = midpoint;
+          // Call the fetchRestaurants function after the midpoint is calculated
+          fetch("../config.json")
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Failed to load config.json");
+              }
+              return response.json();
+            })
+            .then((config) => {
+              const yelpKey = config.yelpKey;
+              return fetchRestaurants(midpoint, yelpKey);
+            })
+            .then((restaurants) => {
+              console.log("Restaurants: ", restaurants);
+            })
+            .catch((error) => {
+              console.error("Yelp API error: ", error);
+            });
         })
         .catch((error) => {
           console.error("Geocoding error:", error);
