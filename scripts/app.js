@@ -2,6 +2,14 @@ const address1 = document.querySelector("#address1");
 const address2 = document.querySelector("#address2");
 const findButton = document.querySelector("#findButton");
 
+// Function to caculatre the midpoint
+function calculateMidpoint(location1, location2) {
+  const midpointLat = (location1.lat + location2.lat) / 2;
+  const midpointLng = (location1.lng + location2.lng) / 2;
+
+  return { lat: midpointLat, lng: midpointLng };
+}
+
 // Function to fetch the geocoding API result
 function geocodeAddress(apiKey, address) {
   const encodedAddress = encodeURIComponent(address);
