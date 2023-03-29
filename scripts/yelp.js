@@ -3,7 +3,7 @@
 
 function fetchRestaurants(midpoint, yelpApiKey) {
   const { lat, lng } = midpoint;
-  const apiUrl = `https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lng}&categories=restaurants`;
+  const apiUrl = `http://localhost:3000/search?latitude=${lat}&longitude=${lng}&categories=restaurants`;
 
   return fetch(apiUrl, {
     headers: {
@@ -14,7 +14,10 @@ function fetchRestaurants(midpoint, yelpApiKey) {
       if (!response.ok) {
         throw new Error("Yelp API response was not ok");
       }
-      return response.json();
+      return response.text();
+    })
+    .then((text) => {
+      return JSON.parse(text);
     })
     .then((data) => {
       return data.businesses;
